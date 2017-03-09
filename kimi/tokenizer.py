@@ -2,7 +2,7 @@
 # Anjana Vakil
 # http://www.github.com/vakila/kimi
 
-from errors import *
+from kimi.errors import *
 
 def tokenize(string):
     '''Take a program as a string, return the tokenized program as a list of strings.

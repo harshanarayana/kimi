@@ -2,9 +2,9 @@
 # Anjana Vakil
 # http://www.github.com/vakila/kimi
 
-import special_forms as sf
-from environments import Environment
-from errors import *
+from kimi.errors import *
+
+from kimi import special_forms as sf
 
 SPECIALS = sf.special_forms()
 

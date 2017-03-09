@@ -2,7 +2,7 @@
 # Anjana Vakil
 # http://www.github.com/vakila/kimi
 
-from exceptions import *
+from kimi.exceptions import *
 
 RUNNING_REPL = False
 

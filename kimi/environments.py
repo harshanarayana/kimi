@@ -3,7 +3,9 @@
 # http://www.github.com/vakila/kimi
 
 import operator as op
-from errors import *
+
+from kimi.errors import *
+
 
 class Environment(dict):
 

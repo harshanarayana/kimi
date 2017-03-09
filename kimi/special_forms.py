@@ -2,9 +2,11 @@
 # Anjana Vakil
 # http://www.github.com/vakila/kimi
 
-import evaluator as ev
-from environments import Environment
-from errors import *
+from kimi.environments import Environment
+from kimi.errors import *
+
+from kimi import evaluator as ev
+
 
 def do(args, env):
     do_env = Environment(name="do", outer=env)

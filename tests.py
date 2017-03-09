@@ -1,5 +1,17 @@
 import unittest
-from kimi import *
+
+from kimi.parser import parse
+from kimi.environments import standard_env
+from kimi.evaluator import evaluate
+from kimi.tokenizer import tokenize
+from kimi.exceptions import *
+
+
+def execute(program):
+    '''Take a Kimi program as a string. Tokenize the program, parse the tokens into a tree,
+    then evaluate the tree. Return the result, or an error message.'''
+    return evaluate(parse(tokenize(program)), standard_env())
+
 
 class TestTokenize(unittest.TestCase):
 
@@ -39,10 +51,10 @@ class TestTokenize(unittest.TestCase):
              ('closing', None), ('closing', None), ('closing', None)])
 
     def test_syntax_errors(self):
-        self.assertRaises(SystemExit, tokenize, ("( + 1 2 )"))
-        self.assertRaises(SystemExit, tokenize, ("(((+ 1 2)))"))
-        self.assertRaises(SystemExit, tokenize, (")+ 1 2("))
-        self.assertRaises(SystemExit, tokenize, ("+ 1 2()"))
+        self.assertRaises(KimiSyntaxError, tokenize, ("( + 1 2 )"))
+        self.assertRaises(KimiSyntaxError, tokenize, ("(((+ 1 2)))"))
+        self.assertRaises(KimiSyntaxError, tokenize, (")+ 1 2("))
+        self.assertRaises(KimiSyntaxError, tokenize, ("+ 1 2()"))
         # self.assertEqual(tokenize("(+ 1 2) (+ 3 4)"),
         #     [('opening', None), ('symbol', '+'), ('literal', 1), ('literal', 2), ('closing', None),
         #      ('opening', None), ('symbol', '+'), ('literal', 3), ('literal', 4), ('closing', None)] )
@@ -173,7 +185,7 @@ class TestSpecialForms(unittest.TestCase):
     def test_if(self):
         self.assertEqual(execute("(if true 1 2)"), 1)
         self.assertEqual(execute("(if false 1 2)"), 2)
-        self.assertRaises(SystemExit, execute, "(if 1 2 3)")
+        self.assertRaises(KimiTypeError, execute, "(if 1 2 3)")
 
 
 if __name__ == '__main__':

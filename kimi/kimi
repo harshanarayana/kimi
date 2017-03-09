@@ -4,13 +4,16 @@
 # Anjana Vakil
 # http://www.github.com/vakila/kimi
 
-import sys
-from tokenizer import tokenize
-from parser import parse
-from evaluator import evaluate
-from environments import standard_env
-from errors import *
 import code
+import sys
+
+from kimi.parser import parse
+from kimi.environments import standard_env
+from kimi.errors import *
+from kimi.tokenizer import tokenize
+
+from kimi.evaluator import evaluate
+
 
 def execute(program):
     '''Take a Kimi program as a string. Tokenize the program, parse the tokens into a tree,

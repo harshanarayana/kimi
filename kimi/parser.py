@@ -2,7 +2,7 @@
 # Anjana Vakil
 # http://www.github.com/vakila/kimi
 
-from errors import *
+from kimi.errors import *
 
 def parse(tokens):
     '''Take a list of tokens representing a program, return a tree representing the program's syntax.
