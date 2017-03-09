@@ -10,6 +10,7 @@ from parser import parse
 from evaluator import evaluate
 from environments import standard_env
 from errors import *
+import code
 
 def execute(program):
     '''Take a Kimi program as a string. Tokenize the program, parse the tokens into a tree,
@@ -24,14 +25,31 @@ def repl():
     print('To exit the interpreter, type "' + '" or "'.join(quit_commands) + '".')
     prompt = 'kimi> '
     global_env = standard_env()
+    enable_repl()
+    console = code.InteractiveConsole(locals=globals())
     while True:
-        command = input(prompt)
+        lines = list()
+
+        while True:
+            prompt_string = ". " if len(lines) else "> "
+            user_input = console.raw_input(prompt_string)
+            if not len(lines) and user_input in quit_commands:
+                return "Goodbye!"
+            if user_input:
+                lines.append(user_input)
+            else:
+                break
+        command = "\n".join(lines)
         if command == "":
             continue
         if command in quit_commands:
             return "Goodbye!"
-        val = evaluate(parse(tokenize(command)), global_env)
-        print(kimify(val))
+        try:
+            val = evaluate(parse(tokenize(command)), global_env)
+            print(kimify(val))
+        except Exception as e:
+            print_or_raise_exception(e)
+
 
 def kimify(exp):
     '''Convert a Python object back into a Kimi-readable string.'''

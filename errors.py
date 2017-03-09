@@ -2,9 +2,16 @@
 # Anjana Vakil
 # http://www.github.com/vakila/kimi
 
+from exceptions import *
+
+RUNNING_REPL = False
+
+def enable_repl():
+    global RUNNING_REPL
+    RUNNING_REPL = True
+
 def complain_and_die(message):
-    print(message)
-    quit()
+    raise KimiParsingError(message)
 
 def assert_or_complain(assertion, message):
     try:
@@ -14,9 +21,18 @@ def assert_or_complain(assertion, message):
 
 
 def throw_error(err_type, message):
-    error = err_type.upper() + " ERROR!"
-    print(error, message)
-    quit()
+    error_type = err_type.title()
+    if error_type not in ["Name", "Syntax", "Type"]:
+        error_type = "Unknown"
+    error = error_type + "Error"
+    exception = eval("Kimi" + error_type + "Error")(error + " : " + message)
+    raise exception
+
+def print_or_raise_exception(exception):
+    if RUNNING_REPL:
+        print(exception)
+    else:
+        raise exception
 
 def assert_or_throw(assertion, err_type, message):
     try:
